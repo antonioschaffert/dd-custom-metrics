@@ -1,0 +1,2 @@
+datadog-api-client==2.35.0
+typing-extensions>=4.0.0 
