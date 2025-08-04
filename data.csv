@@ -1,0 +1,270 @@
+DataPoint Name,Mongo Query - Checks Collection - Static Container,Mongo Query - Checks Collection - Event Container
+Storage Container Minimum Document Create Date,"db.ChecksCollections.aggregate([{$match: {""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US""}}, {$sort: {""CSI_MAPPED_FIELDS.DOC_DT"": 1}}, {$limit: 1}]);","db.ChecksCollections.aggregate([{$match: {""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US""}}, {$sort: {""CSI_MAPPED_FIELDS.DOC_DT"": 1}}, {$limit: 1}]);"
+Storage Container Maximum Document Create Date,"db.ChecksCollections.aggregate([{$match: {""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US""}}, {$sort: {""CSI_MAPPED_FIELDS.DOC_DT"": 0}}, {$limit: 1}]);","db.ChecksCollections.aggregate([{$match: {""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US""}}, {$sort: {""CSI_MAPPED_FIELDS.DOC_DT"": 0}}, {$limit: 1}]);"
+Storage Container Minimum Document Event Create Date,Not Applicable for Static Container,"db.ChecksCollections.aggregate([{$match: {""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$exists: true}}}, {$sort: {""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": 1}}, {$limit: 1}, {$project: {_id: 0, ""documentEventDate"": ""$CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT""}}]);"
+Storage Container Maximum Document Event Create Date,Not Applicable for Static Container,"db.ChecksCollections.aggregate([{$match: {""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$exists: true}}}, {$sort: {""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": 1}}, {$limit: 0}, {$project: {_id: 0, ""documentEventDate"": ""$CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT""}}]);"
+Item Level Hold Count,Programatically Calculated From Rows 15 + 24,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gt: ISODate(""2020-01-01T00:00:00.000Z""), $lt: ISODate(""2020-01-08T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});"
+Event Based Total Document Count,Not Applicable for Static Container,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $gt: ISODate(""2020-01-01T00:00:00.000Z""), $lt: ISODate(""2020-01-08T00:00:00.000Z"") },
+    ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }
+});"
+Non Expired 30 DP Without Hold Document Count,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2020-01-31T00:00:00.000Z""), $lt: ISODate(""2020-04-31T00:00:00.000Z"") }, $or: [{ ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": ""0"" }, { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: false } }]});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2020-01-31T00:00:00.000Z""), $lt: ISODate(""2020-04-30T00:00:00.000Z"")}, $or: [{""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": 0}, {""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": {$exists: true}}],""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Non Expired 30 DP With Hold Document Count,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2020-01-31T00:00:00.000Z""), $lt: ISODate(""2020-04-31T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2020-01-31T00:00:00.000Z""), $lt: ISODate(""2020-04-30T00:00:00.000Z"")},     $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+,""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Non Expired 7 to 30 Days Without Hold Document Count,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2020-01-08T00:00:00.000Z""), $lt: ISODate(""2020-01-31T00:00:00.000Z"") }, $or: [{ ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": ""0"" }, { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: false } }]});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2020-01-08T00:00:00.000Z""), $lt: ISODate(""2020-01-31T00:00:00.000Z"")}, $or: [{""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": 0}, {""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": {$exists: true}}],""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Non Expired 7 to 30 Days With Hold Document Count,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2020-01-08T00:00:00.000Z""), $lt: ISODate(""2020-01-31T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2020-01-08T00:00:00.000Z""), $lt: ISODate(""2020-01-31T00:00:00.000Z"")},     $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+,""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Non Expired 0 to 6 Days Without Hold Document Count,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2020-01-01T00:00:00.000Z""), $lt: ISODate(""2020-01-08T00:00:00.000Z"") }, $or: [{ ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": ""0"" }, { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: false } }]});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2020-01-01T00:00:00.000Z""), $lt: ISODate(""2020-01-08T00:00:00.000Z"")}, $or: [{""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": 0}, {""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": {$exists: true}}],""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Non Expired 0 to 6 Days With Hold Document Count,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2020-01-01T00:00:00.000Z""), $lt: ISODate(""2020-01-08T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2020-01-01T00:00:00.000Z""), $lt: ISODate(""2020-01-08T00:00:00.000Z"")},     $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+,""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Non Expired With Hold Document Count,Calculated Programatically From Rows 10 + 12 + 14,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": {$gte: ISODate(""2010-01-01T00:00:00.000Z""), $lt: ISODate(""2010-01-08T00:00:00.000Z"")},""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: false }}); and then Programatically Add output from Rows 10 + 12 + 14"
+Expired 0 to 3 Months Without Hold Document Count,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2019-10-01T00:00:00.000Z""), $lt: ISODate(""2020-01-01T00:00:00.000Z"") }, $or: [{ ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": ""0"" }, { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: false } }]});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2019-10-01T00:00:00.000Z""), $lt: ISODate(""2020-01-01T00:00:00.000Z"")}, $or: [{""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": 0}, {""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": {$exists: true}}],""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired 0 to 3 Months With Hold Document Count,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2019-10-01T00:00:00.000Z""), $lt: ISODate(""2020-01-08T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2019-10-01T00:00:00.000Z""), $lt: ISODate(""2020-01-01T00:00:00.000Z"")},     $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+,""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired 4 to 6 Months Without Hold Document Count,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2019-07-01T00:00:00.000Z""), $lt: ISODate(""2019-10-01T00:00:00.000Z"") }, $or: [{ ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": ""0"" }, { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: false } }]});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2019-07-01T00:00:00.000Z""), $lt: ISODate(""2019-10-01T00:00:00.000Z"")}, $or: [{""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": 0}, {""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": {$exists: true}}],""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired 4 to 6 Months With Hold Document Count,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2019-07-01T00:00:00.000Z""), $lt: ISODate(""2019-10-08T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2019-07-01T00:00:00.000Z""), $lt: ISODate(""2019-10-01T00:00:00.000Z"")},     $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+,""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired 7 to 12 Months Without Hold Document Count,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2019-01-01T00:00:00.000Z""), $lt: ISODate(""2019-07-01T00:00:00.000Z"") }, $or: [{ ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": ""0"" }, { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: false } }]});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2019-01-01T00:00:00.000Z""), $lt: ISODate(""2020-07-01T00:00:00.000Z"")}, $or: [{""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": 0}, {""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": {$exists: true}}],""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired 7 to 12 Months With Hold Document Count,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2019-01-01T00:00:00.000Z""), $lt: ISODate(""2019-07-08T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2019-10-01T00:00:00.000Z""), $lt: ISODate(""2019-07-01T00:00:00.000Z"")},     $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+,""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired 12 Months Plus Without Hold Document Count,"db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2018-10-01T00:00:00.000Z""), $lt: ISODate(""2019-01-01T00:00:00.000Z"") }, $or: [{ ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": ""0"" }, { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: false } }]});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2018-10-01T00:00:00.000Z""), $lt: ISODate(""2019-01-01T00:00:00.000Z"")}, $or: [{""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": 0}, {""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": {$exists: true}}],""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired 12 Months Plus With Hold Document Count,"db.ChecksCollections.countDocuments({
+    ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+    ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"",
+    ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"",
+    ""CSI_MAPPED_FIELDS.DOC_DT"": { $gte: ISODate(""2018-10-01T00:00:00.000Z""), $lt: ISODate(""2019-01-01T00:00:00.000Z"") },
+    $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+});","db.ChecksCollections.countDocuments({""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_AUTO-PAYMENTS_AUTO-PAYMENTS-TIFF"", ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000"", ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US"", ""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": {$gte: ISODate(""2018-10-01T00:00:00.000Z""), $lt: ISODate(""2019-01-01T00:00:00.000Z"")},     $and: [
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $gte: ""1"" } },
+        { ""CSI_MAPPED_FIELDS.DOC_LGL_HOLD_COUNTER"": { $exists: true } }
+    ]
+,""CSI_MAPPED_FIELDS.DOC_RETN_EVT_DT"": { $exists: true }});"
+Expired With Hold Document Count,Calculated Programatically from Rows 17 + 19 +21 + 23,Calculated Programatically from Rows 17 + 19 +21 + 23
+Total Document Count,Calculated Programatically from Rows that has With and Without Holds Data Points,Calculated Programatically from Rows that has With and Without Holds Data Points
+ContainerMinMaxDateAndTotalCount Without RCC,"db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": { $exists: false },
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US""
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);","db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": { $exists: false },
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": ""US""
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);"
+ContainerMinMaxDateAndTotalCount Without Country Code,"db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": { $exists: false },
+            ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000""
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);","db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": { $exists: false },
+            ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": ""DEP2000""
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);"
+ContainerMinMaxDateAndTotalCount Without Country Code and RCC,"db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": { $exists: false },
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": { $exists: false }
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);","db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""CSI_MAPPED_FIELDS.RCRD_CLS_CD"": { $exists: false },
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": { $exists: false }
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);"
+Missing Container MinMax and Document Count,"db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""RCRD_CLS_CD"": { $nin: [""DEP2000"", ""DEP3000""] },
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": { $nin: [""US"", ""CA""] }
+        }
+    },
+    {
+        $group: {
+            _id: {
+                ""LOCATION_ROLE"": ""$LOCATION_ROLE"",
+                ""COUNTRY_CODE"": ""$CSI_MAPPED_FIELDS.CNTRY_CD"",
+                ""RECORD_CLASS_CODE"": ""$RCRD_CLS_CD""
+            },
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);","db.ChecksCollections.aggregate([
+    {
+        $match: {
+            ""LOCATION_ROLE"": ""CSI_LOC_EDA_110830_ETA-DDA_TIFF-1-CHK"",
+            ""RCRD_CLS_CD"": { $nin: [""DEP2000"", ""DEP3000""] },
+            ""CSI_MAPPED_FIELDS.CNTRY_CD"": { $nin: [""US"", ""CA""] }
+        }
+    },
+    {
+        $group: {
+            _id: {
+                ""LOCATION_ROLE"": ""$LOCATION_ROLE"",
+                ""COUNTRY_CODE"": ""$CSI_MAPPED_FIELDS.CNTRY_CD"",
+                ""RECORD_CLASS_CODE"": ""$RCRD_CLS_CD""
+            },
+            MIN_DATE: { $min: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            MAX_DATE: { $max: ""$CSI_MAPPED_FIELDS.DOC_DT"" },
+            TOTAL_DOCUMENT_COUNT: { $sum: 1 }
+        }
+    }
+]);"
